@@ -1,0 +1,57 @@
+#! bin/bash
+#Обновление пакетного менеджера
+sudo apt update
+
+#Проверка на наличие репозитория Backports
+add_ppa() {
+  for i in "$@"; do
+    grep -h "^deb.backports" /etc/apt/sources.list./* > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+      echo "Adding ppa:backports"
+      sudo add-apt-repository -y ppa:backports
+    else
+      echo "ppa:bacports already exists"
+    fi
+  done
+}
+
+#Установка и запуск Apache2
+sudo apt install apache2 && sudo systemctl enable apache2 && sudo systemctl status apache2
+
+#Установка Python
+sudo apt install python3.10
+
+#Установка и поднятие SSH-сервера
+sudo apt install openssh-server && sudo systemctl status ssh
+
+#Покажет внешний IP
+ip a s
+
+#Математические выражения
+var1=$(( 5 + 5 ))
+echo $var1
+var2=$(( $var1 * 2 ))
+echo $var2
+
+#Найти пользователя
+user=rembo
+if grep $user /etc/passwd
+then
+echo "The user $user Exists"
+fi
+
+#Перебор значений
+echo "Enter username"
+read username
+echo "Enter password"
+read password
+
+if [[ ( $username == "admin" && $password == "secret" ) ]]; then
+echo "valid user"
+else
+echo "invalid user"
+fi
+
+#Hello
+echo "Hello World"
